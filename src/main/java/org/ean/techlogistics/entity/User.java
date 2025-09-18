@@ -30,7 +30,9 @@ public class User {
     @Column(nullable = false, length = 30)
     private String phoneNumber;
 
-    // No cascades aquí para no borrar órdenes/deliveries al borrar un usuario
+    @Column(nullable = false, length = 30)
+    private String name;
+
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 
