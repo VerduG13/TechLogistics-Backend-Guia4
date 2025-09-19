@@ -41,6 +41,10 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
     @Transactional
     public User updateUser(Long id, UserDTO dto) {
         User existing = findById(id);
