@@ -8,6 +8,7 @@ import org.ean.techlogistics.mapper.EntityMapper;
 import org.ean.techlogistics.service.OrderService;
 import org.ean.techlogistics.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
+@Validated
+@CrossOrigin(origins = "*")
 public class OrderController {
 
     private final OrderService orderService;
@@ -76,6 +79,14 @@ public class OrderController {
     @GetMapping("/confirmed")
     public ResponseEntity<List<OrderDTO>> getConfirmedOrders() {
         List<OrderDTO> dtos = orderService.getOrdersByStatus(OrderStatus.CONFIRMADA).stream()
+                .map(EntityMapper::toOrderDTO)
+                .toList();
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<List<OrderDTO>> getPendingOrders() {
+        List<OrderDTO> dtos = orderService.getOrdersByStatus(OrderStatus.CREADA).stream()
                 .map(EntityMapper::toOrderDTO)
                 .toList();
         return ResponseEntity.ok(dtos);

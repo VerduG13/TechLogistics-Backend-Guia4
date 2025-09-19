@@ -10,6 +10,7 @@ import org.ean.techlogistics.mapper.EntityMapper;
 import org.ean.techlogistics.service.DeliveryService;
 import org.ean.techlogistics.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/deliveries")
 @RequiredArgsConstructor
+@Validated
+@CrossOrigin(origins = "*")
 public class DeliveryController {
 
     private final DeliveryService deliveryService;

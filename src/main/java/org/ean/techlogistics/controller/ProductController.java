@@ -6,6 +6,7 @@ import org.ean.techlogistics.entity.Product;
 import org.ean.techlogistics.mapper.EntityMapper;
 import org.ean.techlogistics.service.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
+@Validated
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     private final ProductService productService;

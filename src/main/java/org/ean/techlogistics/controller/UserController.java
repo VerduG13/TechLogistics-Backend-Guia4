@@ -6,6 +6,7 @@ import org.ean.techlogistics.entity.User;
 import org.ean.techlogistics.mapper.EntityMapper;
 import org.ean.techlogistics.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Validated
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
