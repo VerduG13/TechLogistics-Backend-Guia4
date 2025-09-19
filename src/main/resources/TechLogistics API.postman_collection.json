@@ -1,0 +1,741 @@
+{
+	"info": {
+		"_postman_id": "9c7f914e-fade-4ca7-b91b-743e5038761d",
+		"name": "TechLogistics API",
+		"description": "Collection to test User, Product, Order and Delivery controllers for TechLogistics (local dev).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45630964",
+		"_collection_link": "https://german-6548291.postman.co/workspace/German's-Workspace~42e7c1cd-d8ce-4fa4-87c7-172c7883a3e1/collection/45630964-9c7f914e-fade-4ca7-b91b-743e5038761d?action=share&source=collection_link&creator=45630964"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register ADMIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = {};",
+									"try { json = pm.response.json(); } catch(e) {}",
+									"pm.test('Registered ADMIN returns id', function(){ pm.expect(json.id).to.exist; });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": null,\n  \"email\": \"{{admin_email}}\",\n  \"role\": \"ADMIN\",\n  \"name\": \"Usuario Admin\",\n  \"phoneNumber\": \"+57 3000000000\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/register?password={{admin_password}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{admin_password}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register CLIENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = {};",
+									"try { json = pm.response.json(); } catch(e) {}",
+									"if (json && json.id) { pm.collectionVariables.set('client_id', json.id); }",
+									"pm.test('Registered CLIENT; stored client_id', function(){ pm.expect(pm.collectionVariables.get('client_id')).to.exist; });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{client_email}}\",\n  \"role\": \"CLIENTE\",\n  \"phoneNumber\": \"+57 3011111111\",\n  \"name\": \"Pepito Perez\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/register?password={{client_password}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{client_password}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register COURIER (Transportista)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = {};",
+									"try { json = pm.response.json(); } catch(e) {}",
+									"if (json && json.id) { pm.collectionVariables.set('courier_id', json.id); }",
+									"pm.test('Registered COURIER; stored courier_id', function(){ pm.expect(pm.collectionVariables.get('courier_id')).to.exist; });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": null,\n  \"email\": \"{{courier_email}}\",\n  \"role\": \"TRANSPORTISTA\",\n  \"phoneNumber\": \"+57 301 7654321\",\n  \"name\": \"Carlos Casas\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/register?password={{courier_password}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{courier_password}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login CLIENT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/login?email={{admin_email}}&password={{admin_password}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "{{admin_email}}"
+								},
+								{
+									"key": "password",
+									"value": "{{admin_password}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Couriers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/couriers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"couriers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"phoneNumber\": \"+57 1234567\",\r\n  \"name\": \"German Verdugo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/password?newPassword=54321",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"password"
+							],
+							"query": [
+								{
+									"key": "newPassword",
+									"value": "54321"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Caja pequeña\",\n  \"code\": \"01111\",\n  \"description\": \"Caja de cartón de 20x15x10 cm\",\n  \"stock\": 100,\n  \"price\": 10000\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/products/12345",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"12345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Udpate Stock",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/products/1/stock?delta=350",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1",
+								"stock"
+							],
+							"query": [
+								{
+									"key": "delta",
+									"value": "350"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = {};\r",
+									"try { json = pm.response.json(); } catch(e) {}\r",
+									"if (json && json.id) { pm.collectionVariables.set('order_id', json.id); }\r",
+									"pm.test('Order created; stored order_id', function(){ pm.expect(pm.collectionVariables.get('order_id')).to.exist; });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/orders/create?clientId={{client_id}}&address=Cra%2012%20%2334-56%20Bogota%20(Apto%20301)",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"create"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "{{client_id}}"
+								},
+								{
+									"key": "address",
+									"value": "Cra%2012%20%2334-56%20Bogota%20(Apto%20301)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/{{order_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/code/ORD-1758242230641",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"code",
+								"ORD-1758242230641"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order as CLIENT (only if CREADA)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/{{order_id}}/cancel?clientId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"{{order_id}}",
+								"cancel"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Order (cliente) — address + items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  { \"productId\": 1, \"qty\": 65 },\n  { \"productId\": 2, \"qty\": 20 }\n]"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/orders/confirm?clientId={{client_id}}&orderId={{order_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"confirm"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "{{client_id}}"
+								},
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders By Client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/client/{{client_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"client",
+								"{{client_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Confirmed Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/orders/confirmed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"confirmed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Deliveries",
+			"item": [
+				{
+					"name": "Assign Delivery (courier self-assign logic via service)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = {};",
+									"try { json = pm.response.json(); } catch(e) {}",
+									"if (json && json.id) { pm.collectionVariables.set('delivery_id', json.id); }",
+									"pm.test('Delivery created; stored delivery_id', function(){ pm.expect(pm.collectionVariables.get('delivery_id')).to.exist; });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/deliveries/assign?orderId={{order_id}}&courierId={{courier_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"deliveries",
+								"assign"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								},
+								{
+									"key": "courierId",
+									"value": "{{courier_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assigned to Courier",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/deliveries/orders/{{courier_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"deliveries",
+								"orders",
+								"{{courier_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Delivery as Delivered",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/deliveries/{{delivery_id}}/delivered",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"deliveries",
+								"{{delivery_id}}",
+								"delivered"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "admin_email",
+			"value": "admin@techlogistics.com"
+		},
+		{
+			"key": "admin_password",
+			"value": "Admin123*"
+		},
+		{
+			"key": "client_email",
+			"value": "cliente@correo.com"
+		},
+		{
+			"key": "client_password",
+			"value": "Cliente123*"
+		},
+		{
+			"key": "courier_email",
+			"value": "transportista@correo.com"
+		},
+		{
+			"key": "courier_password",
+			"value": "TechLogi1!"
+		},
+		{
+			"key": "client_id",
+			"value": ""
+		},
+		{
+			"key": "courier_id",
+			"value": ""
+		},
+		{
+			"key": "order_id",
+			"value": ""
+		},
+		{
+			"key": "delivery_id",
+			"value": ""
+		},
+		{
+			"key": "product_code",
+			"value": "CAJA-MEDIANA"
+		}
+	]
+}
