@@ -15,6 +15,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByClientId(Long clientId);
 
-    @Query("select o from Order o where o.status = :status and o.delivery is null")
-    Page<Order> findUnassignedByStatus(OrderStatus status, Pageable pageable);
+    Optional<Order> findByCode(String code);
 }

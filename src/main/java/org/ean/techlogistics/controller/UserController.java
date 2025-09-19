@@ -47,4 +47,9 @@ public class UserController {
     public List<UserDTO> getCouriers() {
         return userService.getCouriers().stream().map(EntityMapper::toUserDTO).toList();
     }
+
+    @GetMapping("")
+    public List<UserDTO> getAll() {
+        return userService.getAllUsers().stream().map(EntityMapper::toUserDTO).toList();
+    }
 }

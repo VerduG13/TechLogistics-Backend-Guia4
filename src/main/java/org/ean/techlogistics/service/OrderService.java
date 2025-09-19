@@ -59,6 +59,10 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow();
     }
 
+    public Order getOrderByCode(String code) {
+        return orderRepository.findByCode(code).orElseThrow();
+    }
+
     public List<Order> getOrdersByClient(Long clientId) {
         return orderRepository.findByClientId(clientId);
     }
@@ -70,7 +74,8 @@ public class OrderService {
     @Transactional
     public Order cancelOrderAsClient(Long orderId, User client) {
         Order order = orderRepository.findById(orderId).orElseThrow();
-        if (!order.getClient().getId().equals(client.getId())) {
+        if (!order.getClient().getId().equals(client.getId())
+            && !client.getRole().equals(UserRole.ADMIN)) {
             throw new SecurityException("No puedes cancelar una orden de otro usuario");
         }
         if (order.getStatus() != OrderStatus.CREADA) {

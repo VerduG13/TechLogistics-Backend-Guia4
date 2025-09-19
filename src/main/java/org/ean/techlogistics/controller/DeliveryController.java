@@ -2,6 +2,7 @@ package org.ean.techlogistics.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.ean.techlogistics.dto.DeliveryDTO;
+import org.ean.techlogistics.dto.OrderDTO;
 import org.ean.techlogistics.entity.Delivery;
 import org.ean.techlogistics.entity.User;
 import org.ean.techlogistics.entity.UserRole;
@@ -10,6 +11,8 @@ import org.ean.techlogistics.service.DeliveryService;
 import org.ean.techlogistics.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/deliveries")
@@ -36,5 +39,12 @@ public class DeliveryController {
     public ResponseEntity<DeliveryDTO> markAsDelivered(@PathVariable Long id) {
         Delivery delivery = deliveryService.markAsDelivered(id);
         return ResponseEntity.ok(EntityMapper.toDeliveryDTO(delivery));
+    }
+
+    @GetMapping("/orders/{courierId}")
+    public List<OrderDTO> getCourierOrders(@PathVariable Long courierId) {
+        return deliveryService.getOrdersAssignedToCourier(courierId).stream()
+                .map(EntityMapper::toOrderDTO)
+                .toList();
     }
 }

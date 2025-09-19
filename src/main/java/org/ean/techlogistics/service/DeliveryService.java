@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,9 +37,18 @@ public class DeliveryService {
         return deliveryRepository.save(delivery);
     }
 
+    public List<Order> getOrdersAssignedToCourier(Long courierId) {
+        return deliveryRepository.findByCourierId(courierId).stream()
+                .map(Delivery::getOrder)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public Delivery markAsDelivered(Long deliveryId) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow();
+        if (delivery.getOrder().getStatus() != OrderStatus.EN_CAMINO) {
+            throw new IllegalStateException("Solo se pueden asignar órdenes EN CAMINO");
+        }
         delivery.setDeliveryDate(LocalDateTime.now());
 
         Order order = delivery.getOrder();

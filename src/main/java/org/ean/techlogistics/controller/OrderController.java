@@ -60,6 +60,11 @@ public class OrderController {
         return ResponseEntity.ok(EntityMapper.toOrderDTO(orderService.getOrder(id)));
     }
 
+    @GetMapping("/code/{code}")
+    public ResponseEntity<OrderDTO> getOrderByCode(@PathVariable String code) {
+        return ResponseEntity.ok(EntityMapper.toOrderDTO(orderService.getOrderByCode(code)));
+    }
+
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<OrderDTO>> getOrderByClientId(@PathVariable Long clientId) {
         List<OrderDTO> dtos = orderService.getOrdersByClient(clientId).stream()
